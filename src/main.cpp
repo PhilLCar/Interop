@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
   {
     CAPI test = CAPI(path.c_str(), include);
 
-    test.makeC(""); // random test
+    test.makeC("obj\\test"); // random test
   }
 
   return 0;

@@ -1,5 +1,4 @@
-#ifndef INTEROP_ENUM_HEADER
-#define INTEROP_ENUM_HEADER
+#pragma once
 
 #include <vector>
 #include <string>
@@ -14,5 +13,3 @@ namespace interop {
     vector<pair<string, int>> values;
   };
 }
-
-#endif

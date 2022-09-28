@@ -1,5 +1,4 @@
-#ifndef INTEROP_OBJECT_HEADER
-#define INTEROP_OBJECT_HEADER
+#pragma once
 
 #include <vector>
 #include <string>
@@ -21,7 +20,10 @@ namespace interop {
 
   public:
     mutable Type::AccessLevel  currentAL = Type::PUBLIC;
-    string                     type;
+    Type::AccessLevel          al        = Type::PUBLIC;
+    string                     file;
+    string                     ns;
+    string                     structure_type;
     string                     name;
     vector<Object>             objects;
     vector<Enum>               enums;
@@ -30,5 +32,3 @@ namespace interop {
     vector<string>             knownTypes;
   };
 }
-
-#endif

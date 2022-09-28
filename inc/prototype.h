@@ -1,5 +1,4 @@
-#ifndef INTEROP_PROTOTYPE_HEADER
-#define INTEROP_PROTOTYPE_HEADER
+#pragma once
 
 #include <string>
 #include <vector>
@@ -12,10 +11,11 @@ namespace interop {
 
   struct Prototype {
   public:
+    string toString() const;
+
+  public:
     Type                       return_type;
     string                     name;
     vector<pair<Type, string>> params;
   };
 }
-
-#endif

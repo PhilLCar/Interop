@@ -1,5 +1,4 @@
-#ifndef INTEROP_TYPE_HEADER
-#define INTEROP_TYPE_HEADER
+#pragma once
 
 #include <string>
 #include <vector>
@@ -39,6 +38,9 @@ namespace interop {
     static inline bool isSpecifier(const char* expr) { return in(SPECIFIERS, SPECIFIERS_SIZE, expr); }
 
   public:
+    string toString() const;
+
+  public:
     AccessLevel    al = Type::PUBLIC;
     string         name;
     vector<string> modifier;
@@ -47,5 +49,3 @@ namespace interop {
     vector<int>    storage;
   };
 }
-
-#endif
