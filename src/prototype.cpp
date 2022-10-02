@@ -1,18 +1,18 @@
 #include <prototype.h>
 
 namespace interop {
-  string Prototype::toString() const {
-    string s = return_type.toString();
+  string to_string(const Prototype& pt) {
+    string s = to_string(pt.return_type);
     bool   f = true;
 
     s += " ";
-    s += name;
+    s += pt.name;
     s += "(";
 
-    for (vector<pair<Type, string>>::const_iterator it = params.begin(); it != params.end(); it++) {
+    for (vector<pair<Type, string>>::const_iterator it = pt.params.begin(); it != pt.params.end(); it++) {
       if (f) f = false;
       else   s += ", ";
-      s += it->first.toString();
+      s += to_string(it->first);
       if (it->second != "") {
         s += " ";
         s += it->second;

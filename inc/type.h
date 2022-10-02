@@ -38,7 +38,7 @@ namespace interop {
     static inline bool isSpecifier(const char* expr) { return in(SPECIFIERS, SPECIFIERS_SIZE, expr); }
 
   public:
-    string toString() const;
+    friend string to_string(const Type& type);
 
   public:
     AccessLevel    al = Type::PUBLIC;

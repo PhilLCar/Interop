@@ -11,7 +11,7 @@ namespace interop {
 
   struct Prototype {
   public:
-    string toString() const;
+    friend string to_string(const Prototype& pt);
 
   public:
     Type                       return_type;

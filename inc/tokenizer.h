@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <string>
 #include <fstream>
 
@@ -31,8 +32,10 @@ namespace interop {
     bool   whitespace();
 
   private:
-    static const vector<char>         WHITESPACE;
-    static const vector<const char*>  UNMERGEABLE;
+    static const vector<char>                    WHITESPACE;
+    static const vector<const char*>             PUNCTUATION;
+  public:
+    static const map<const string, const string> OPERATORS;
 
   private:
     const vector<const char*>& includePaths;

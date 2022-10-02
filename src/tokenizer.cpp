@@ -10,19 +10,59 @@
 #endif
 
 namespace interop {
-  const vector<char>        Tokenizer::WHITESPACE  = { ' ', '\t', '\n', '\r' };
-  const vector<const char*> Tokenizer::UNMERGEABLE = { ";", ":", ",", "{", "}", "(", ")", "[", "]", "<", "<<",
-                                                       "<=", "<<=", ">", ">>", ">=", ">>=", "+", "++", "+=", 
-                                                       "-", "--", "-=", ".", "~", "*", "*=", "/", "/=", "&", 
-                                                       "&&", "&=", "^", "^", "^=", "|", "||", "|=", "!", "!=",
-                                                       "%", "%=", "?", "==", "//", "...", "/*", "::" };
+  const vector<char>                    Tokenizer::WHITESPACE  = { ' ', '\t', '\n', '\r' };
+  const vector<const char*>             Tokenizer::PUNCTUATION = { ".", ",", ":", ";", "::", "...", "{", "}", "[", "]", "(", ")" };
+  const map<const string, const string> Tokenizer::OPERATORS   = {
+    { "==",  "eq"      }, 
+    { "<=",  "lteq"    },
+    { ">=",  "gteq"    },
+    { "<<=", "shleq"   },
+    { ">>=", "shreq"   },
+    { "+=",  "addeq"   },
+    { "-=",  "subeq"   },
+    { "*=",  "muleq"   },
+    { "/=",  "diveq"   },
+    { "%=",  "modeq"   },
+    { "|=",  "oreq"    },
+    { "^=",  "xoreq"   },
+    { "&=",  "andeq"   },
+    { "~=",  "noteq"   },
+    { "&&=", "landeq"  },
+    { "||=", "loreq"   },
+    { "!=",  "lnoteq"  },
+    { "=",   "assing", },
+    { "<",   "lt"      },
+    { ">",   "gt",     },
+    { "<<",  "shl"     },
+    { ">>",  "shr"     },
+    { "+",   "add"     },
+    { "-",   "sub"     },
+    { "*",   "mul"     },
+    { "/",   "div"     },
+    { "%",   "mod"     },
+    { "|",   "or"      },
+    { "^",   "xor"     },
+    { "&",   "and"     },
+    { "~",   "not"     },
+    { "||",  "lor"     },
+    { "&&",  "land"    },
+    { "!",   "lnot"    },
+    { "++",  "inc"     },
+    { "--",  "dec"     },
+    { "[",   "at"      },
+    { "(",   "call"    }
+  };
 
   Tokenizer::Tokenizer(const char* preprocessedFilename, const vector<const char*>& includePaths)
     : includePaths(includePaths)
     , buflength([]{
         int max = 0;
-        for (vector<const char*>::const_iterator it = UNMERGEABLE.begin(); it != UNMERGEABLE.end(); it++) {
+        for (vector<const char*>::const_iterator it = PUNCTUATION.begin(); it != PUNCTUATION.end(); it++) {
           int tmp = (int)strlen(*it);
+          if (tmp > max) max = tmp;
+        }
+        for (map<const string, const string>::const_iterator it = OPERATORS.begin(); it != OPERATORS.end(); it++) {
+          int tmp = (int)it->first.length();
           if (tmp > max) max = tmp;
         }
         return max;
@@ -241,13 +281,20 @@ namespace interop {
   {
     int max = 0;
 
-    for (vector<const char*>::const_iterator tmp = UNMERGEABLE.begin(); tmp != UNMERGEABLE.end(); tmp++) {
-      int len = (int)strlen(*tmp);
+    for (vector<const char*>::const_iterator it = PUNCTUATION.begin(); it != PUNCTUATION.end(); it++) {
+      int len = (int)strlen(*it);
 
       for (int i = 0; i < len; i++) {
-        if (buffer[i] != (*tmp)[i]) len = -1;
+        if (buffer[i] != (*it)[i]) len = -1;
       }
+      if (len > max) max = len;
+    }
+    for (map<const string, const string>::const_iterator it = OPERATORS.begin(); it != OPERATORS.end(); it++) {
+      int len = (int)it->first.length();
 
+      for (int i = 0; i < len; i++) {
+        if (buffer[i] != (it->first)[i]) len = -1;
+      }
       if (len > max) max = len;
     }
 

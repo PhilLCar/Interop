@@ -167,7 +167,7 @@ namespace interop {
     // Special cases: constructors and destructors don't have a type
     if (s == "~") {
       tokenizer.next();
-      name      = s + tokenizer.next();
+      name      = tokenizer.next();
       type.name = "destructor";
     } else if (s == reference.name && (tokenizer.next(), tokenizer.peek()) == "(") {
       name      = s;
@@ -211,46 +211,11 @@ namespace interop {
   {
     if (pt.name == "operator") {
       string s = tokenizer.next();
-      if      (s == "=")   pt.name = "_assign";
-      else if (s == "==")  pt.name = "_eq";
-      else if (s == "+")   pt.name = "_add";
-      else if (s == "++")  pt.name = "_inc";
-      else if (s == "+=")  pt.name = "_addeq";
-      else if (s == "-")   pt.name = "_sub";
-      else if (s == "--")  pt.name = "_dec";
-      else if (s == "-=")  pt.name = "_subeq";
-      else if (s == "*")   pt.name = "_mul";
-      else if (s == "*=")  pt.name = "_muleq";
-      else if (s == "/")   pt.name = "_div";
-      else if (s == "/=")  pt.name = "_diveq";
-      else if (s == "%")   pt.name = "_mod";
-      else if (s == "%=")  pt.name = "_modeq";
-      else if (s == "|")   pt.name = "_bor";
-      else if (s == "|=")  pt.name = "_boreq";
-      else if (s == "^")   pt.name = "_bxor";
-      else if (s == "^=")  pt.name = "_bxoreq";
-      else if (s == "&")   pt.name = "_band";
-      else if (s == "&=")  pt.name = "_bandeq";
-      else if (s == "||")  pt.name = "_lor";
-      else if (s == "&&")  pt.name = "_land";
-      else if (s == "<<")  pt.name = "_shl";
-      else if (s == "<<=") pt.name = "_shleq";
-      else if (s == ">>")  pt.name = "_shr";
-      else if (s == ">>=") pt.name = "_shreq";
-      else if (s == "!")   pt.name = "_not";
-      else if (s == "!=")  pt.name = "_noteq";
-      else if (s == "<")   pt.name = "_lt";
-      else if (s == "<=")  pt.name = "_leq";
-      else if (s == ">")   pt.name = "_gt";
-      else if (s == ">=")  pt.name = "_geq";
-      else if (s == "[")  {
-        tokenizer.expect("]");
-        pt.name = "at";
-      }
-      else if (s == "(")  {
-        tokenizer.expect(")");
-        pt.name = "call";
-      }
+
+      if      (s == "[") tokenizer.expect("]");
+      else if (s == "(") tokenizer.expect(")");
+      
+      pt.name = s;
     }
     tokenizer.expect("(");
 

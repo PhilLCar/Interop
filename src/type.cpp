@@ -1,9 +1,11 @@
 #include <type.h>
 
 namespace interop {
-  string Type::toString() const {
-    string s = name;
-    for (vector<int>::const_iterator it = storage.begin(); it != storage.end(); it++) {
+  string to_string(const Type& type) {
+    string s = type.name;
+    
+    if (find(type.qualifier.begin(), type.qualifier.end(), "const") != type.qualifier.end()) s = "const " + s;
+    for (vector<int>::const_iterator it = type.storage.begin(); it != type.storage.end(); it++) {
       switch (*it) {
       case 0:
         s += "[]";
@@ -12,13 +14,13 @@ namespace interop {
         s += "*";
         break;
       case -2:
-        s += "*";
+        s += "&";
         break;
       case -3:
-        s += "*";
+        s += "&&";
         break;
       default:
-        s += string("[") + to_string(*it) + "]";
+        s += string("[") + std::to_string(*it) + "]";
         break;
       }
     }
